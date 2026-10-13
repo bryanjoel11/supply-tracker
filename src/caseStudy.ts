@@ -8,8 +8,8 @@ export function caseStudyHTML(): string {
     <header class="case-hero reveal">
       <p class="eyebrow">Case study · Product management</p>
       <h2>From ordering blind to ordering on data</h2>
-      <p class="lede">While working attractions in Tomorrowland, I built a small app to track our supplies. It helped my team stop over-ordering and, by my estimate, recover about <strong>35%</strong> of a supply budget that was being misused. This page is how I would turn that tool into a real product.</p>
-      <p class="fineprint">Personal project. v1 is recreated from memory; I no longer have access to it. No internal Disney data, screenshots, or figures are used here. All numbers in the app are fictional demo data.</p>
+      <p class="lede">When I worked in theme park attractions operations, I built a small app to track our supplies. It helped my team stop over-ordering and, by my estimate, recover about <strong>35%</strong> of a supply budget that was being misused. This page is how I would turn that tool into a real product.</p>
+      <p class="fineprint">v1 is recreated from memory; I no longer have access to it.</p>
     </header>
 
     <section class="case-sec reveal">
@@ -77,7 +77,7 @@ export function caseStudyHTML(): string {
       <h3><span class="num">06</span> Roadmap</h3>
       <ol class="roadmap">
         <li><span class="tag tag-done">v1 · Built</span><b>Visibility.</b> Item list, usage and delivery logging, stock visualization.</li>
-        <li><span class="tag tag-now">v2 · This demo</span><b>Decisions.</b> Reorder points and quantities from history, status alerts, savings dashboard.</li>
+        <li><span class="tag tag-now">v2 · This build</span><b>Decisions.</b> Reorder points and quantities from history, status alerts, savings dashboard.</li>
         <li><span class="tag tag-next">Next</span><b>Team product.</b> Shared cloud data and roles, barcode or QR scan to log usage, supplier lead-time tracking, purchase-order export, alerts by text or email, multi-location view.</li>
       </ol>
     </section>

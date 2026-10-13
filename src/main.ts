@@ -1,5 +1,5 @@
 import './style.css';
-import { AppState, Item, StockEvent, loadState, saveState, resetState, today, uid } from './data';
+import { AppState, Item, StockEvent, loadState, today, uid } from './data';
 import {
   ItemStats,
   Status,
@@ -17,7 +17,7 @@ import {
 import { mountLineChart, usageSpark } from './charts';
 import { caseStudyHTML } from './caseStudy';
 
-let state: AppState = loadState();
+const state: AppState = loadState();
 
 type View = 'inventory' | 'log' | 'reorder' | 'savings' | 'case';
 const VIEWS: { id: View; label: string }[] = [
@@ -46,7 +46,7 @@ function pill(s: Status): string {
 }
 
 function persist() {
-  saveState(state);
+  /* in-memory only: every visit starts from the same seeded dataset */
 }
 
 function currentView(): View {
@@ -79,27 +79,17 @@ function renderShell() {
           <p class="sub">Inventory and reorder planning for small operations teams</p>
         </div>
       </div>
-      <div class="top-actions">
-        <span class="demo-badge" title="All data is fictional">Demo data · fictional</span>
-        <button class="btn ghost" id="reset">Reset demo data</button>
-      </div>
     </header>
     <nav class="tabs" role="tablist" aria-label="Sections">
       ${VIEWS.map((v) => `<a role="tab" href="#${v.id}" data-view="${v.id}">${v.label}</a>`).join('')}
     </nav>
     <main id="view" tabindex="-1"></main>
     <footer class="foot">
-      <p>Supply Tracker v2 by Bryan · A personal portfolio project. Team, items and numbers are fictional. Not affiliated with any company.</p>
+      <p>Supply Tracker v2 · Built by Bryan</p>
     </footer>
     <div id="toast" role="status" aria-live="polite"></div>
     <dialog id="item-dialog"></dialog>
   `;
-  document.getElementById('reset')!.addEventListener('click', () => {
-    if (!confirm('Reset all items and history to the demo data? Your changes will be lost.')) return;
-    state = resetState();
-    renderView();
-    toast('Demo data restored');
-  });
 }
 
 function renderView() {
@@ -540,7 +530,7 @@ function renderSavings(main: HTMLElement) {
       <p class="eyebrow">Budget recovered · last ${c.dates.length} days</p>
       <h2><span class="grad">${money(saved)}</span> freed up, <span class="mono">${num(pct, 0)}%</span> of supply spend</h2>
       <p class="lede">Same items, same daily usage. Ordering on a fixed schedule with padded guesses would have cost <b>${money(c.blind.spend)}</b>. Ordering from the reorder points in this app would have cost <b>${money(c.smart.spend)}</b>, with fewer stockout days. That difference is budget the operation could put somewhere else.</p>
-      <p class="fineprint">Simulated on fictional demo data. Change the data (log usage, edit costs) and this recalculates.</p>
+      <p class="fineprint">Recalculates as you log usage or edit costs.</p>
     </section>
 
     <section class="cmp-grid">
@@ -583,7 +573,7 @@ function renderSavings(main: HTMLElement) {
         <ul>
           <li><b>Demand:</b> the actual usage logged for each item over the last ${c.dates.length} days. Both strategies face exactly the same days.</li>
           <li><b>Starting point:</b> both start with the same stock (about one lead time plus a week of supply).</li>
-          <li><b>Ordering blind:</b> every ${BLIND_INTERVAL_DAYS} days, order the "usual" amount: two weeks of use padded by a per-item habit factor (most items padded 1.6 to 2.2×; seasonal items like ponchos were under-ordered). If an item runs out, place a rush order at a ${Math.round((RUSH_PREMIUM - 1) * 100)}% premium.</li>
+          <li><b>Ordering blind:</b> every ${BLIND_INTERVAL_DAYS} days, order the "usual" amount: two weeks of use padded by a per-item habit factor (most items padded 1.5 to 2.1×; seasonal items like ponchos were under-ordered). If an item runs out, place a rush order at a ${Math.round((RUSH_PREMIUM - 1) * 100)}% premium.</li>
           <li><b>Data-driven:</b> when stock plus anything on order drops to the reorder point, order up to the healthy max. Rush orders follow the same rule if it ever runs out.</li>
           <li><b>Spend</b> counts every order placed in the period. <b>Overstock</b> is stock above the healthy max, valued at unit cost.</li>
           <li><b>Caveat:</b> the data-driven run uses usage stats from the whole window, so it has some hindsight. In real use the estimates update as data comes in, so expect results a bit below this.</li>

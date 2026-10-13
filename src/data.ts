@@ -1,5 +1,5 @@
-// Data model, fictional demo seed, and localStorage persistence.
-// All figures are invented for a generic "attraction operations team".
+// Data model and the fixed seeded dataset. Every page load builds the same numbers;
+// edits made during a visit live in memory only.
 
 export interface Item {
   id: string;
@@ -9,7 +9,7 @@ export interface Item {
   unitCost: number;
   leadTimeDays: number;
   stock: number;
-  /** How much padding the team used when ordering "blind" (demo baseline only). */
+  /** How much padding the team used when ordering "blind" (baseline simulation only). */
   blindFactor: number;
 }
 
@@ -31,7 +31,6 @@ export interface AppState {
   events: StockEvent[];
 }
 
-const STORAGE_KEY = 'supply-tracker-v2';
 const STATE_VERSION = 1;
 export const HISTORY_DAYS = 90;
 
@@ -98,37 +97,33 @@ interface SeedSpec {
 }
 
 const SEED: SeedSpec[] = [
-  { name: 'Nitrile gloves', category: 'PPE', unit: 'box of 100', unitCost: 9.5, lead: 5, base: 3.2, blind: 1.9, scenario: 'soon' },
-  { name: 'Disinfectant wipes', category: 'Cleaning', unit: 'canister', unitCost: 6.8, lead: 4, base: 5, blind: 2.0 },
-  { name: 'Multi-surface cleaner', category: 'Cleaning', unit: 'gallon', unitCost: 14, lead: 5, base: 1.1, blind: 1.9, scenario: 'overstock' },
-  { name: 'Paper towels', category: 'Cleaning', unit: 'case of 12', unitCost: 38, lead: 4, base: 0.6, blind: 1.8 },
-  { name: 'Trash liners', category: 'Cleaning', unit: 'case of 250', unitCost: 42, lead: 5, base: 0.5, blind: 2.0 },
-  { name: 'Hand sanitizer refill', category: 'Cleaning', unit: '1 L bottle', unitCost: 11, lead: 5, base: 1.6, blind: 1.9 },
-  { name: 'AA batteries', category: 'Electrical', unit: '24-pack', unitCost: 16.5, lead: 3, base: 0.9, blind: 2.2, scenario: 'critical' },
-  { name: '9V batteries', category: 'Electrical', unit: '12-pack', unitCost: 21, lead: 3, base: 0.25, blind: 2.0 },
-  { name: 'Radio earpieces', category: 'Electrical', unit: 'each', unitCost: 24, lead: 10, base: 0.25, blind: 1.7, scenario: 'soon' },
-  { name: 'Guest wristbands', category: 'Guest', unit: 'roll of 500', unitCost: 55, lead: 14, base: 0.8, blind: 1.8, scenario: 'overstock' },
-  { name: 'Ticket paper rolls', category: 'Guest', unit: 'case of 50', unitCost: 48, lead: 7, base: 0.35, blind: 2.2 },
+  { name: 'Nitrile gloves', category: 'PPE', unit: 'box of 100', unitCost: 9.5, lead: 5, base: 3.2, blind: 1.8, scenario: 'soon' },
+  { name: 'Disinfectant wipes', category: 'Cleaning', unit: 'canister', unitCost: 6.8, lead: 4, base: 5, blind: 1.9 },
+  { name: 'Multi-surface cleaner', category: 'Cleaning', unit: 'gallon', unitCost: 14, lead: 5, base: 1.1, blind: 1.8, scenario: 'overstock' },
+  { name: 'Paper towels', category: 'Cleaning', unit: 'case of 12', unitCost: 38, lead: 4, base: 0.6, blind: 1.7 },
+  { name: 'Trash liners', category: 'Cleaning', unit: 'case of 250', unitCost: 42, lead: 5, base: 0.5, blind: 1.9 },
+  { name: 'Hand sanitizer refill', category: 'Cleaning', unit: '1 L bottle', unitCost: 11, lead: 5, base: 1.6, blind: 1.8 },
+  { name: 'AA batteries', category: 'Electrical', unit: '24-pack', unitCost: 16.5, lead: 3, base: 0.9, blind: 2.1, scenario: 'critical' },
+  { name: '9V batteries', category: 'Electrical', unit: '12-pack', unitCost: 21, lead: 3, base: 0.25, blind: 1.9 },
+  { name: 'Radio earpieces', category: 'Electrical', unit: 'each', unitCost: 24, lead: 10, base: 0.25, blind: 1.6, scenario: 'soon' },
+  { name: 'Guest wristbands', category: 'Guest', unit: 'roll of 500', unitCost: 55, lead: 14, base: 0.8, blind: 1.7, scenario: 'overstock' },
+  { name: 'Ticket paper rolls', category: 'Guest', unit: 'case of 50', unitCost: 48, lead: 7, base: 0.35, blind: 2.1 },
   { name: 'Rain ponchos', category: 'Guest', unit: 'case of 200', unitCost: 90, lead: 10, base: 0.15, blind: 0.9, rainy: true },
-  { name: 'Sunscreen packets', category: 'Guest', unit: 'box of 100', unitCost: 32, lead: 7, base: 0.3, blind: 2.0 },
-  { name: 'First-aid kit refills', category: 'Safety', unit: 'refill pack', unitCost: 27, lead: 7, base: 0.45, blind: 1.7, scenario: 'critical' },
-  { name: 'Ear plugs', category: 'Safety', unit: 'box of 200', unitCost: 28, lead: 7, base: 0.12, blind: 1.9 },
-  { name: 'Safety vests', category: 'Safety', unit: 'each', unitCost: 8, lead: 10, base: 0.12, blind: 2.1, scenario: 'overstock' },
-  { name: 'Zip ties', category: 'Maintenance', unit: 'bag of 1000', unitCost: 12, lead: 5, base: 0.15, blind: 1.8 },
-  { name: 'Gaffer tape', category: 'Maintenance', unit: 'roll', unitCost: 19, lead: 5, base: 0.35, blind: 1.6 },
+  { name: 'Sunscreen packets', category: 'Guest', unit: 'box of 100', unitCost: 32, lead: 7, base: 0.3, blind: 1.9 },
+  { name: 'First-aid kit refills', category: 'Safety', unit: 'refill pack', unitCost: 27, lead: 7, base: 0.45, blind: 1.6, scenario: 'critical' },
+  { name: 'Ear plugs', category: 'Safety', unit: 'box of 200', unitCost: 28, lead: 7, base: 0.12, blind: 1.8 },
+  { name: 'Safety vests', category: 'Safety', unit: 'each', unitCost: 8, lead: 10, base: 0.12, blind: 2.0, scenario: 'overstock' },
+  { name: 'Zip ties', category: 'Maintenance', unit: 'bag of 1000', unitCost: 12, lead: 5, base: 0.15, blind: 1.7 },
+  { name: 'Gaffer tape', category: 'Maintenance', unit: 'roll', unitCost: 19, lead: 5, base: 0.35, blind: 1.5 },
 ];
 
 /** Build ~90 days of usage and deliveries, ending today. */
-export function buildDemoState(): AppState {
+export function buildSeedState(): AppState {
   const rnd = mulberry32(20261013);
   const end = today();
   const start = addDays(end, -(HISTORY_DAYS - 1));
   const items: Item[] = [];
   const events: StockEvent[] = [];
-  const startDow = (() => {
-    const [y, m, d] = start.split('-').map(Number);
-    return new Date(y, m - 1, d).getDay();
-  })();
 
   // shared rainy days (for ponchos)
   const rainy: boolean[] = Array.from({ length: HISTORY_DAYS }, () => rnd() < 0.12);
@@ -150,7 +145,7 @@ export function buildDemoState(): AppState {
         events.push({ id: uid(), itemId: id, date, type: 'receive', qty: p.qty, note: 'Scheduled order' });
       }
       // usage
-      const dow = (startDow + t) % 7;
+      const dow = (HISTORY_DAYS - 1 - t) % 7; // fixed weekly rhythm, independent of the calendar
       const weekend = dow === 0 || dow === 5 || dow === 6 ? 1.3 : 0.9;
       let mean = s.base * weekend * (0.95 + 0.1 * (t / HISTORY_DAYS));
       if (s.rainy) mean = rainy[t] ? s.base * 7 : s.base * 0.3;
@@ -195,32 +190,8 @@ export function buildDemoState(): AppState {
   return { version: STATE_VERSION, seededAt: end, items, events };
 }
 
-// ---------- persistence ----------
+// ---------- state ----------
+/** Fresh copy of the fixed seeded dataset. Nothing is persisted between visits. */
 export function loadState(): AppState {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) {
-      const parsed = JSON.parse(raw) as AppState;
-      if (parsed && parsed.version === STATE_VERSION && Array.isArray(parsed.items)) return parsed;
-    }
-  } catch {
-    /* storage unavailable or corrupt; fall through to fresh demo */
-  }
-  const fresh = buildDemoState();
-  saveState(fresh);
-  return fresh;
-}
-
-export function saveState(state: AppState): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    /* ignore: app still works in-memory */
-  }
-}
-
-export function resetState(): AppState {
-  const fresh = buildDemoState();
-  saveState(fresh);
-  return fresh;
+  return buildSeedState();
 }

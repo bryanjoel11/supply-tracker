@@ -60,7 +60,6 @@ button, input, select { font: inherit; color: inherit; }
 .ver { font-family: var(--font-mono); font-size: 12px; color: var(--ember-glow); border: 1px solid var(--space-700); border-radius: 999px; padding: 1px 8px; vertical-align: 3px; margin-left: 4px; }
 .sub { margin: 0; color: var(--dust); font-size: 13px; }
 .top-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.demo-badge { font-size: 12px; color: var(--dust); border: 1px dashed var(--space-700); padding: 4px 10px; border-radius: 999px; }
 
 .tabs {
   position: sticky; top: 8px; z-index: 10;
