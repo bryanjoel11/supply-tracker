@@ -31,7 +31,7 @@ export function caseStudyHTML(): string {
         <li>A stock visualization that showed, at a glance, what was running low and what we had too much of. This was the part that changed behavior.</li>
       </ul>
       <p>v1 had both a mobile version, so the team could check and log stock on the go during a shift, and a desktop version for reviewing stock levels and planning orders.</p>
-      <p>Built with Microsoft Power Apps on top of a shared SharePoint list, and used by coordinators, leaders and the proprietor.</p>
+      <p>Built as a React web app with a Firebase database, so counts synced live between the mobile and desktop versions. It was used by coordinators, leaders and the proprietor.</p>
     </section>
 
     <section class="case-sec reveal impact">
