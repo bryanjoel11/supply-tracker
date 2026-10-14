@@ -2,7 +2,7 @@
 
 A product website and web app for inventory and reorder planning on small operations teams, plus a product case study.
 
-When I worked in theme park attractions operations, I built a simple app to track our supplies. Before it, the team ordered blind. Seeing our stock at a glance helped us stop over-ordering and freed up budget for the rest of the operation. I no longer have that app, so v1 is recreated from memory in the case study. This repo is v2: the same idea turned into a general product.
+When I worked in theme park attractions operations, I built a simple app to track our supplies. Before it, the team ordered blind. Seeing our stock at a glance helped us stop over-ordering and freed up budget for the rest of the operation. This repo is v2: the same idea turned into a general product.
 
 ## Why it matters (for a hiring manager)
 
