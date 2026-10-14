@@ -9,7 +9,7 @@ export function caseStudyHTML(): string {
       <p class="eyebrow">Case study · Product management</p>
       <h2>From ordering blind to ordering on data</h2>
       <p class="lede">When I worked in theme park attractions operations, I built a small app to track our supplies. It helped my team stop over-ordering and, by my estimate, recover about <strong>35%</strong> of a supply budget that was being misused. This page is how I would turn that tool into a real product.</p>
-      <p class="fineprint">v1 is recreated from memory; I no longer have access to it.</p>
+      <p class="fineprint">v1 is recreated from memory; I no longer have access to it. The numbers in the app are sample data for demonstration only, not real Disney data.</p>
     </div>
   </header>
   <article class="case">

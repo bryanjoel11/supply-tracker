@@ -58,6 +58,7 @@ export function siteFooter(): string {
         </div>
       </div>
     </div>
+    <p class="data-note">All data in Supply Tracker is sample data for demonstration purposes only. It is not real Disney data.</p>
     <div class="foot-base"><span>© 2026 Supply Tracker</span><span>Built by Bryan</span></div>
   </footer>`;
 }

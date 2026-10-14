@@ -109,7 +109,8 @@ function render() {
           </nav>
         </aside>
         <main id="view" class="app-main" tabindex="-1"></main>
-      </div>`;
+      </div>
+      <p class="data-note app-data-note">All data in Supply Tracker is sample data for demonstration purposes only. It is not real Disney data.</p>`;
   } else if (r.page === 'case') {
     body = `<main id="view" class="page-case" tabindex="-1">${caseStudyHTML()}</main>${siteFooter()}`;
   } else {
@@ -630,7 +631,7 @@ function renderSavings(main: HTMLElement) {
       <p class="eyebrow">Budget recovered · last ${c.dates.length} days</p>
       <h2><span class="grad">${money(saved)}</span> freed up, <span class="mono">${num(pct, 0)}%</span> of supply spend</h2>
       <p class="lede">Same items, same daily usage. Ordering on a fixed schedule with padded guesses would have cost <b>${money(c.blind.spend)}</b>. Ordering from the reorder points in this app would have cost <b>${money(c.smart.spend)}</b>, with fewer stockout days. That difference is budget the operation could put somewhere else.</p>
-      <p class="fineprint">Recalculates as you log usage or edit costs.</p>
+      <p class="fineprint">Sample data for demonstration only, not real Disney data. Recalculates as you log usage or edit costs.</p>
     </section>
 
     <section class="cmp-grid">

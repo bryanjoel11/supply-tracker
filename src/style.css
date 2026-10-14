@@ -451,3 +451,6 @@ mark.verify { background: var(--st-soon-bg); color: var(--st-soon); border-radiu
   .wm-text { font-size: 17px; }
   .results-stats { grid-template-columns: 1fr; }
 }
+
+.data-note { max-width: 1200px; margin: 28px auto 0; padding: 0 16px; font-size: 13px; line-height: 1.5; color: #c9d6d1; }
+.app-data-note { margin: 0 auto; padding: 14px 16px 24px; color: #5b6b66; text-align: center; }
