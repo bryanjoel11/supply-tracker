@@ -19,7 +19,7 @@ export function siteHeader(active: string): string {
       <nav class="nav-links" id="nav-links" aria-label="Main">
         ${link('#/product', 'Product', 'product')}
         ${link('#/how-it-works', 'How it works', 'how')}
-        ${link('#/case-study', 'Case study', 'case')}
+        ${link('#/case-study', 'The story', 'case')}
       </nav>
       <div class="nav-cta">
         <a href="#/app/inventory" class="btn primary ${active === 'app' ? 'is-current' : ''}">Open app</a>
@@ -54,7 +54,7 @@ export function siteFooter(): string {
         </div>
         <div>
           <h4>Story</h4>
-          <a href="#/case-study">Case study</a>
+          <a href="#/case-study">The story</a>
         </div>
       </div>
     </div>
@@ -166,7 +166,7 @@ export function landingHTML(d: LandingData): string {
     </div>
     <blockquote class="origin reveal">
       <p>"My team was ordering supplies blind. I built a simple tracker on the floor, and once people could see the shelves, over-ordering stopped. Ordering got smarter, surprises dropped, and budget that was sitting on shelves went back to work. This is that idea, rebuilt as a product."</p>
-      <footer>Bryan, creator · <a href="#/case-study">Read the case study →</a></footer>
+      <footer>Bryan, creator · <a href="#/case-study">Read the story →</a></footer>
     </blockquote>
   </section>
 

@@ -1,10 +1,10 @@
-// Case study copy, written in Bryan's voice.
+// Story page copy, written in Bryan's voice.
 
 export function caseStudyHTML(): string {
   return `
   <header class="case-hero">
     <div class="case-hero-inner reveal">
-      <p class="eyebrow">Case study · Product management</p>
+      <p class="eyebrow">Product management</p>
       <h2>From ordering blind to ordering on data</h2>
       <p class="lede">When I worked in theme park attractions operations, I built a small app to track our supplies. It gave my team a clear view of what we had, helped us stop over-ordering, and freed up supply budget that had been tied up in extra stock. This page is how I would turn that tool into a real product.</p>
     </div>
