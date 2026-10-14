@@ -607,7 +607,6 @@ function renderReorder(main: HTMLElement) {
 function renderSavings(main: HTMLElement) {
   const c = compare(state);
   const saved = c.blind.spend - c.smart.spend;
-  const pct = c.blind.spend > 0 ? (saved / c.blind.spend) * 100 : 0;
   const cum = (arr: number[]) => {
     let a = 0;
     return arr.map((v) => (a += v));
@@ -629,7 +628,7 @@ function renderSavings(main: HTMLElement) {
   main.innerHTML = `
     <section class="hero-stat reveal">
       <p class="eyebrow">Budget recovered · last ${c.dates.length} days</p>
-      <h2><span class="grad">${money(saved)}</span> freed up, <span class="mono">${num(pct, 0)}%</span> of supply spend</h2>
+      <h2><span class="grad">${money(saved)}</span> freed up for the rest of the operation</h2>
       <p class="lede">Same items, same daily usage. Ordering on a fixed schedule with padded guesses would have cost <b>${money(c.blind.spend)}</b>. Ordering from the reorder points in this app would have cost <b>${money(c.smart.spend)}</b>, with fewer stockout days. That difference is budget the operation could put somewhere else.</p>
       <p class="fineprint">Sample data for demonstration only, not real Disney data. Recalculates as you log usage or edit costs.</p>
     </section>

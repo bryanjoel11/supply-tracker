@@ -103,7 +103,7 @@ export function landingHTML(d: LandingData): string {
         <div class="pw-kpis">
           <div><small>Need action</small><b>${d.needAction}</b></div>
           <div><small>On shelves</small><b>${d.shelfValue}</b></div>
-          <div class="pw-save"><small>Spend saved</small><b>${Math.round(d.pct)}%</b></div>
+          <div class="pw-save"><small>Rush orders avoided</small><b>${d.rushAvoided}</b></div>
         </div>
         <div class="pw-rows">${d.previewRows}</div>
       </div>
@@ -151,13 +151,14 @@ export function landingHTML(d: LandingData): string {
     <div class="results-grid">
       <div class="results-copy reveal">
         <p class="eyebrow">Results</p>
-        <h2><span class="big-num">${Math.round(d.pct)}%</span> less supply spend</h2>
-        <p>Over the last 90 days of usage, ordering from reorder points instead of a padded fixed schedule cuts spend from <b>${d.blindSpend}</b> to <b>${d.smartSpend}</b>, freeing <b>${d.saved}</b> for the rest of the operation.</p>
-        <div class="results-stats">
-          <div><b>${d.saved}</b><span>budget freed</span></div>
-          <div><b>${d.stockoutsBlind} → ${d.stockoutsSmart}</b><span>stockout days</span></div>
-          <div><b>${d.rushAvoided}</b><span>rush orders avoided</span></div>
-        </div>
+        <h2>Less guesswork, fewer surprises</h2>
+        <p>Ordering from reorder points instead of a padded fixed schedule means the team sees problems coming, stops over-ordering, and keeps the budget working for the rest of the operation.</p>
+        <ul class="results-points">
+          <li><b>Everyone sees the same shelves.</b> One shared view of what's in stock and what's running low.</li>
+          <li><b>No more padded orders.</b> Orders follow real usage, so extra stock stops piling up.</li>
+          <li><b>Fewer last-minute scrambles.</b> Low items get flagged early, before anyone runs out.</li>
+          <li><b>Time back on the floor.</b> Stock checks take seconds instead of a walk through the back room.</li>
+        </ul>
         <a href="#/app/savings" class="btn primary">Open the savings dashboard</a>
       </div>
       <div class="results-chart reveal">
@@ -165,7 +166,7 @@ export function landingHTML(d: LandingData): string {
       </div>
     </div>
     <blockquote class="origin reveal">
-      <p>"My team was ordering supplies blind. I built a simple tracker on the floor, and once people could see the shelves, over-ordering stopped. By my estimate we recovered about 35% of a supply budget that was being misused. This is that idea, rebuilt as a product."</p>
+      <p>"My team was ordering supplies blind. I built a simple tracker on the floor, and once people could see the shelves, over-ordering stopped. Ordering got smarter, surprises dropped, and budget that was sitting on shelves went back to work. This is that idea, rebuilt as a product."</p>
       <footer>Bryan, creator · <a href="#/case-study">Read the case study →</a></footer>
     </blockquote>
   </section>
