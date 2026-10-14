@@ -2,7 +2,7 @@
 
 A product website and web app for inventory and reorder planning on small operations teams, plus a product case study.
 
-When I worked in theme park attractions operations, I built a simple app to track our supplies. Before it, the team ordered blind. The stock visualization helped us stop over-ordering and, by my estimate, recover about 35% of a supply budget that was being misused, which was reallocated elsewhere in the operation. I no longer have that app, so v1 is recreated from memory in the case study. This repo is v2: the same idea turned into a general product.
+When I worked in theme park attractions operations, I built a simple app to track our supplies. Before it, the team ordered blind. Seeing our stock at a glance helped us stop over-ordering and freed up budget for the rest of the operation. I no longer have that app, so v1 is recreated from memory in the case study. This repo is v2: the same idea turned into a general product.
 
 ## Why it matters (for a hiring manager)
 
@@ -19,7 +19,7 @@ When I worked in theme park attractions operations, I built a simple app to trac
   - **Inventory:** every item with stock on hand, days of supply, unit cost, and a stock bar showing reorder point and healthy max. Status is Healthy, Reorder soon, Critical or Overstocked (icon + label, not color alone). Filter, search, add, edit, delete.
   - **Log activity:** log usage and receive orders with simple forms; recent activity with undo.
   - **Reorder:** average daily usage and variability over the last 90 days, reorder point = lead-time demand + safety stock (z = 1.65, about a 95% service level), and an order-up-to quantity (~14 days of supply + buffer), explained in plain words with the math one click away, plus a "suggested order today" sheet.
-  - **Savings:** compares "ordering blind" (fixed every-14-days orders padded by habit, rush orders at a 30% premium when out) with data-driven ordering over the same 90 days of usage: spend, value on shelves, overstock, stockout days and emergency orders, with SVG charts and a per-item table. It lands at about 36% less spend and recalculates when the data changes.
+  - **Savings:** compares "ordering blind" (fixed every-14-days orders padded by habit, rush orders at a 30% premium when out) with data-driven ordering over the same 90 days of usage: spend, value on shelves, overstock, stockout days and emergency orders, with SVG charts and a per-item table. It recalculates when the data changes.
 - **Case study page:** problem, v1, impact, what v2 adds, personas, roadmap, success metrics, written in first person with `[verify]` markers on details to confirm.
 - **Fixed seeded dataset:** 18 supply items with 90 days of usage and deliveries. Every page load starts from the same numbers; edits during a visit stay in memory and are not saved.
 
