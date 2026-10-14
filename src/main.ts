@@ -116,7 +116,7 @@ function render() {
   } else {
     body = `<main id="view" class="page-landing" tabindex="-1">${landingHTML(landingData())}</main>${siteFooter()}`;
   }
-  app.innerHTML = `${siteHeader(r.navKey)}${body}<div id="toast" role="status" aria-live="polite"></div><dialog id="item-dialog"></dialog>`;
+  app.innerHTML = `<div class="top-disclaimer" role="note">All data in Supply Tracker is sample data for demonstration purposes only. It is not real Disney data.</div>${siteHeader(r.navKey)}${body}<div id="toast" role="status" aria-live="polite"></div><dialog id="item-dialog"></dialog>`;
   wireNav();
   const main = document.getElementById('view')!;
   if (r.page === 'app') renderView();

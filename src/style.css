@@ -454,3 +454,4 @@ mark.verify { background: var(--st-soon-bg); color: var(--st-soon); border-radiu
 
 .data-note { max-width: 1200px; margin: 28px auto 0; padding: 0 16px; font-size: 13px; line-height: 1.5; color: #c9d6d1; }
 .app-data-note { margin: 0 auto; padding: 14px 16px 24px; color: #5b6b66; text-align: center; }
+.top-disclaimer { background: #0E5E4E; color: #FAF7F2; font-size: 13px; line-height: 1.4; text-align: center; padding: 8px 16px; }
