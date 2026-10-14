@@ -1,6 +1,4 @@
-// Case study copy, written in Bryan's voice. Items marked [verify] are placeholders to confirm.
-
-const v = '<mark class="verify" title="Placeholder: Bryan to confirm">[verify]</mark>';
+// Case study copy, written in Bryan's voice.
 
 export function caseStudyHTML(): string {
   return `
@@ -18,22 +16,22 @@ export function caseStudyHTML(): string {
       <h3><span class="num">01</span> Problem</h3>
       <p>We ordered supplies blind. Nobody could see how much of anything we had or how fast we used it, so orders were based on habit and memory.</p>
       <ul>
-        <li><b>Over-ordering.</b> To avoid running out, people padded every order. Extra stock sat on shelves and in back rooms ${v}.</li>
-        <li><b>Shortages anyway.</b> The things that actually ran low were noticed late, which meant rush requests or borrowing from other areas ${v}.</li>
-        <li><b>Wasted time.</b> Counting stock and chasing orders took time away from running the attraction ${v}.</li>
+        <li><b>Over-ordering.</b> To avoid running out, people padded every order. Extra stock sat on shelves and in back rooms.</li>
+        <li><b>Shortages anyway.</b> The things that actually ran low were noticed late, which meant rush requests or borrowing from other areas.</li>
+        <li><b>Wasted time.</b> Counting stock and chasing orders took time away from running the attraction.</li>
       </ul>
     </section>
 
     <section class="case-sec reveal">
       <h3><span class="num">02</span> What I built (v1)</h3>
-      <p>A simple tracker the team could update during a shift ${v}.</p>
+      <p>A simple tracker the team could update during a shift.</p>
       <ul>
         <li>A list of our supplies with current counts.</li>
         <li>A way to log what was used and what arrived.</li>
         <li>A stock visualization that showed, at a glance, what was running low and what we had too much of. This was the part that changed behavior.</li>
       </ul>
       <p>v1 had both a mobile version, so the team could check and log stock on the go during a shift, and a desktop version for reviewing stock levels and planning orders.</p>
-      <p>Built with ${v} [tool or platform], used by roughly ${v} [number] team members over about ${v} [months].</p>
+      <p>Built with Microsoft Power Apps on top of a shared SharePoint list, and used by coordinators, leaders and the proprietor.</p>
     </section>
 
     <section class="case-sec reveal impact">
