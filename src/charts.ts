@@ -70,7 +70,7 @@ export function mountLineChart(container: HTMLElement, opts: LineOpts): void {
     .join('');
 
   const dots = opts.series
-    .map((s) => `<circle class="hover-dot" data-key="${s.key}" r="4.5" fill="${s.color}" stroke="var(--space-900)" stroke-width="2" cx="-20" cy="-20"/>`)
+    .map((s) => `<circle class="hover-dot" data-key="${s.key}" r="4.5" fill="${s.color}" stroke="var(--surface)" stroke-width="2" cx="-20" cy="-20"/>`)
     .join('');
 
   const legend = opts.series

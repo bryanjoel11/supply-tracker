@@ -4,13 +4,15 @@ const v = '<mark class="verify" title="Placeholder: Bryan to confirm">[verify]</
 
 export function caseStudyHTML(): string {
   return `
-  <article class="case">
-    <header class="case-hero reveal">
+  <header class="case-hero">
+    <div class="case-hero-inner reveal">
       <p class="eyebrow">Case study · Product management</p>
       <h2>From ordering blind to ordering on data</h2>
       <p class="lede">When I worked in theme park attractions operations, I built a small app to track our supplies. It helped my team stop over-ordering and, by my estimate, recover about <strong>35%</strong> of a supply budget that was being misused. This page is how I would turn that tool into a real product.</p>
       <p class="fineprint">v1 is recreated from memory; I no longer have access to it.</p>
-    </header>
+    </div>
+  </header>
+  <article class="case">
 
     <section class="case-sec reveal">
       <h3><span class="num">01</span> Problem</h3>
@@ -30,7 +32,7 @@ export function caseStudyHTML(): string {
         <li>A way to log what was used and what arrived.</li>
         <li>A stock visualization that showed, at a glance, what was running low and what we had too much of. This was the part that changed behavior.</li>
       </ul>
-      <p>Built with ${v} [tool or platform], used by roughly ${v} [number] cast members over about ${v} [months].</p>
+      <p>Built with ${v} [tool or platform], used by roughly ${v} [number] team members over about ${v} [months].</p>
     </section>
 
     <section class="case-sec reveal impact">
@@ -60,7 +62,7 @@ export function caseStudyHTML(): string {
           <p class="persona-role">Shift lead</p>
           <h4>Maya, attraction shift lead</h4>
           <p><b>Needs:</b> to know before her shift if anything will run out, and to log usage in seconds.</p>
-          <p><b>Pain today:</b> finds out an item is gone when a cast member asks for it.</p>
+          <p><b>Pain today:</b> finds out an item is gone when a team member asks for it.</p>
           <p><b>Success:</b> no surprises; logging takes under a minute per shift.</p>
         </div>
         <div class="persona">
@@ -105,6 +107,11 @@ export function caseStudyHTML(): string {
         <li>Logging has to be faster than skipping it, or the data goes stale.</li>
         <li>Show the money. Savings in dollars got attention that "better inventory" never did.</li>
       </ul>
+    </section>
+    <section class="case-cta reveal">
+      <h3>See v2 in action</h3>
+      <p>Reorder suggestions, stock status and the savings comparison are all live in the app.</p>
+      <a href="#/app/inventory" class="btn primary">Open the app</a>
     </section>
   </article>`;
 }

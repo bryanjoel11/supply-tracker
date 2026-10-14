@@ -16,16 +16,24 @@ import {
 } from './analytics';
 import { mountLineChart, usageSpark } from './charts';
 import { caseStudyHTML } from './caseStudy';
+import { siteHeader, siteFooter, landingHTML, LandingData } from './site';
 
 const state: AppState = loadState();
 
-type View = 'inventory' | 'log' | 'reorder' | 'savings' | 'case';
-const VIEWS: { id: View; label: string }[] = [
-  { id: 'inventory', label: 'Inventory' },
-  { id: 'log', label: 'Log activity' },
-  { id: 'reorder', label: 'Reorder' },
-  { id: 'savings', label: 'Savings' },
-  { id: 'case', label: 'Case study' },
+type View = 'inventory' | 'log' | 'reorder' | 'savings';
+type Page = 'landing' | 'case' | 'app';
+interface Route {
+  page: Page;
+  view: View;
+  anchor?: string;
+  navKey: string;
+}
+
+const APP_VIEWS: { id: View; label: string; icon: string }[] = [
+  { id: 'inventory', label: 'Inventory', icon: '<path d="M4 20V10m5.3 10V4m5.4 16v-7M20 20V8" />' },
+  { id: 'log', label: 'Log activity', icon: '<path d="M5 4h10l4 4v12H5z"/><path d="M9 12h6M9 16h6M12 9v6"/>' },
+  { id: 'reorder', label: 'Reorder', icon: '<path d="M4 7h11l-3-3M20 17H9l3 3"/>' },
+  { id: 'savings', label: 'Savings', icon: '<path d="M4 17l5-5 4 4 7-8"/><path d="M15 8h5v5"/>' },
 ];
 
 const app = document.getElementById('app')!;
@@ -49,9 +57,23 @@ function persist() {
   /* in-memory only: every visit starts from the same seeded dataset */
 }
 
-function currentView(): View {
-  const h = location.hash.replace('#', '') as View;
-  return VIEWS.some((v) => v.id === h) ? h : 'inventory';
+function parseRoute(): Route {
+  const h = location.hash.replace(/^#\/?/, '');
+  const [a, b] = h.split('/');
+  if (a === 'app') {
+    const view = (APP_VIEWS.some((v) => v.id === b) ? b : 'inventory') as View;
+    return { page: 'app', view, navKey: 'app' };
+  }
+  if (APP_VIEWS.some((v) => v.id === a)) return { page: 'app', view: a as View, navKey: 'app' };
+  if (a === 'case-study' || a === 'case') return { page: 'case', view: 'inventory', navKey: 'case' };
+  if (a === 'product') return { page: 'landing', view: 'inventory', anchor: 'features', navKey: 'product' };
+  if (a === 'how-it-works') return { page: 'landing', view: 'inventory', anchor: 'how', navKey: 'how' };
+  return { page: 'landing', view: 'inventory', navKey: '' };
+}
+
+function currentView(): View | null {
+  const r = parseRoute();
+  return r.page === 'app' ? r.view : null;
 }
 
 // ---------- toast ----------
@@ -64,48 +86,71 @@ function toast(msg: string) {
   toastTimer = window.setTimeout(() => el.classList.remove('show'), 2600);
 }
 
-// ---------- shell ----------
-function renderShell() {
-  app.innerHTML = `
-    <header class="topbar">
-      <div class="brand">
-        <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
-          <rect x="4" y="15" width="7" height="12" rx="2" fill="var(--nebula)"/>
-          <rect x="12.5" y="9" width="7" height="18" rx="2" fill="var(--ember)"/>
-          <rect x="21" y="4" width="7" height="23" rx="2" fill="var(--ember-glow)"/>
-        </svg>
-        <div>
-          <h1>Supply Tracker <span class="ver">v2</span></h1>
-          <p class="sub">Inventory and reorder planning for small operations teams</p>
-        </div>
-      </div>
-    </header>
-    <nav class="tabs" role="tablist" aria-label="Sections">
-      ${VIEWS.map((v) => `<a role="tab" href="#${v.id}" data-view="${v.id}">${v.label}</a>`).join('')}
-    </nav>
-    <main id="view" tabindex="-1"></main>
-    <footer class="foot">
-      <p>Supply Tracker v2 · Built by Bryan</p>
-    </footer>
-    <div id="toast" role="status" aria-live="polite"></div>
-    <dialog id="item-dialog"></dialog>
-  `;
+// ---------- page rendering ----------
+let lastPage: Page | null = null;
+
+function render() {
+  const r = parseRoute();
+  const pageChanged = r.page !== lastPage;
+  lastPage = r.page;
+  redrawCharts = null;
+  let body = '';
+  if (r.page === 'app') {
+    body = `
+      <div class="app-shell">
+        <aside class="app-side" aria-label="App sections">
+          <p class="side-label">Workspace</p>
+          <p class="side-team">Attraction Ops · Supplies</p>
+          <nav class="side-nav" id="side-nav">
+            ${APP_VIEWS.map(
+              (v) =>
+                `<a href="#/app/${v.id}" data-view="${v.id}" class="${v.id === r.view ? 'active' : ''}" ${v.id === r.view ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${v.icon}</svg><span>${v.label}</span>${v.id === 'reorder' ? `<em class="side-badge" id="side-badge"></em>` : ''}</a>`,
+            ).join('')}
+          </nav>
+        </aside>
+        <main id="view" class="app-main" tabindex="-1"></main>
+      </div>`;
+  } else if (r.page === 'case') {
+    body = `<main id="view" class="page-case" tabindex="-1">${caseStudyHTML()}</main>${siteFooter()}`;
+  } else {
+    body = `<main id="view" class="page-landing" tabindex="-1">${landingHTML(landingData())}</main>${siteFooter()}`;
+  }
+  app.innerHTML = `${siteHeader(r.navKey)}${body}<div id="toast" role="status" aria-live="polite"></div><dialog id="item-dialog"></dialog>`;
+  wireNav();
+  const main = document.getElementById('view')!;
+  if (r.page === 'app') renderView();
+  if (r.page === 'landing') mountLandingChart();
+  setupReveals(main);
+
+  if (r.anchor) {
+    const el = document.getElementById(r.anchor);
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 72;
+      window.scrollTo({ top: y, behavior: pageChanged || reduceMotion ? 'instant' : 'smooth' });
+    }
+  } else {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
 }
 
+function wireNav() {
+  const btn = document.getElementById('menu-btn');
+  const links = document.getElementById('nav-links');
+  btn?.addEventListener('click', () => {
+    const open = links!.classList.toggle('open');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+}
+
+/** Re-render just the current app view (after edits). */
 function renderView() {
   const view = currentView();
-  document.querySelectorAll<HTMLAnchorElement>('.tabs a').forEach((a) => {
-    const on = a.dataset.view === view;
-    a.classList.toggle('active', on);
-    a.setAttribute('aria-selected', String(on));
-    if (on) {
-      const nav = a.parentElement!;
-      const left = a.offsetLeft - (nav.clientWidth - a.offsetWidth) / 2;
-      nav.scrollTo({ left: Math.max(0, left), behavior: 'auto' });
-    }
-  });
-  const main = document.getElementById('view')!;
-  main.className = `view view-${view}`;
+  const main = document.getElementById('view');
+  if (!view || !main) {
+    render();
+    return;
+  }
+  main.className = `app-main view view-${view}`;
   switch (view) {
     case 'inventory':
       renderInventory(main);
@@ -119,11 +164,66 @@ function renderView() {
     case 'savings':
       renderSavings(main);
       break;
-    case 'case':
-      main.innerHTML = caseStudyHTML();
-      break;
+  }
+  const badge = document.getElementById('side-badge');
+  if (badge) {
+    const n = allStats(state).filter((s) => s.suggestQty > 0).length;
+    badge.textContent = n ? String(n) : '';
+    badge.hidden = !n;
+  }
+  const nav = document.getElementById('side-nav');
+  const active = nav?.querySelector<HTMLElement>('a.active');
+  if (nav && active && nav.scrollWidth > nav.clientWidth) {
+    nav.scrollLeft = Math.max(0, active.offsetLeft - (nav.clientWidth - active.offsetWidth) / 2);
   }
   setupReveals(main);
+}
+
+// ---------- landing data ----------
+function landingData(): LandingData {
+  const stats = allStats(state);
+  const c = compare(state);
+  const pick = ['critical', 'soon', 'over', 'healthy'] as Status[];
+  const rows = pick
+    .map((st) => stats.find((s) => s.status === st))
+    .filter((s): s is ItemStats => !!s)
+    .concat(stats.filter((s) => s.status === 'healthy').slice(1, 2))
+    .map(
+      (s) => `<div class="pw-row"><span class="pw-name">${esc(s.item.name)}</span>${stockBar(s)}${pill(s.status)}</div>`,
+    )
+    .join('');
+  const value = state.items.reduce((a, i) => a + i.stock * i.unitCost, 0);
+  return {
+    previewRows: rows,
+    needAction: stats.filter((s) => s.status === 'critical' || s.status === 'soon').length,
+    shelfValue: money(value),
+    pct: c.blind.spend > 0 ? ((c.blind.spend - c.smart.spend) / c.blind.spend) * 100 : 0,
+    saved: money(c.blind.spend - c.smart.spend),
+    blindSpend: money(c.blind.spend),
+    smartSpend: money(c.smart.spend),
+    stockoutsBlind: c.blind.stockoutDays,
+    stockoutsSmart: c.smart.stockoutDays,
+    rushAvoided: Math.max(0, c.blind.rushOrders - c.smart.rushOrders),
+  };
+}
+
+function mountLandingChart() {
+  const c = compare(state);
+  const cum = (arr: number[]) => {
+    let a = 0;
+    return arr.map((v) => (a += v));
+  };
+  const series = [
+    { name: 'Fixed schedule', key: 'blind', color: 'var(--series-blind)', values: cum(c.blind.dailySpend) },
+    { name: 'Supply Tracker', key: 'smart', color: 'var(--series-smart)', values: cum(c.smart.dailySpend) },
+  ];
+  const fmtK = (v: number) => (v >= 1000 ? `$${num(v / 1000, 1)}k` : money(v));
+  const draw = () => {
+    const el = document.getElementById('landing-chart');
+    if (el) mountLineChart(el, { dates: c.dates, series, format: fmtK, height: 240, label: 'Cumulative supply spend, fixed schedule vs Supply Tracker' });
+  };
+  draw();
+  redrawCharts = draw;
 }
 
 // ---------- reveal ----------
@@ -602,17 +702,16 @@ function renderSavings(main: HTMLElement) {
 
 let redrawCharts: (() => void) | null = null;
 let resizeTimer = 0;
+let lastWidth = window.innerWidth;
 window.addEventListener('resize', () => {
   clearTimeout(resizeTimer);
   resizeTimer = window.setTimeout(() => {
-    if (currentView() === 'savings' && redrawCharts) redrawCharts();
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    redrawCharts?.();
   }, 150);
 });
 
 // ---------- boot ----------
-renderShell();
-renderView();
-window.addEventListener('hashchange', () => {
-  renderView();
-  window.scrollTo({ top: 0, behavior: 'auto' });
-});
+render();
+window.addEventListener('hashchange', render);
